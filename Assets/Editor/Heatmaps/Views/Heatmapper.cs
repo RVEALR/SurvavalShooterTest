@@ -94,6 +94,10 @@ public class Heatmapper : EditorWindow
                         {
                             SystemProcess();
                         }
+						if (GUILayout.Button("LoadProccessedJson"))
+						{
+							SystemProcess(true);
+						}
                     }
                 }
             }
@@ -140,15 +144,22 @@ public class Heatmapper : EditorWindow
         }
     }
 
-    void SystemProcess()
+	void SystemProcess(bool preProcessed = false)
     {
         if (m_HeatMapInstance == null)
         {
             CreateHeatmapInstance();
         }
-        if (m_AggregationView != null)
+		if (m_AggregationView != null)
         {
-            m_AggregationView.Fetch(OnAggregation, true);
+			if (!preProcessed) 
+			{
+				m_AggregationView.Fetch(OnAggregation, true, preProcessed);
+			} 
+			else 
+			{
+				m_ParserView.SetDataPath(m_AggregationView.GetDataPath());
+			}
         }
     }
 

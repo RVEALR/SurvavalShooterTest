@@ -15,8 +15,8 @@ namespace UnityAnalyticsHeatmap
 {
     public class AggregationInspector
     {
+		public const string k_DataPathKey = "UnityAnalyticsHeatmapDataPathKey";
         const string k_UrlKey = "UnityAnalyticsHeatmapDataExportUrlKey";
-        const string k_DataPathKey = "UnityAnalyticsHeatmapDataPathKey";
         const string k_UseCustomDataPathKey = "UnityAnalyticsHeatmapUsePersistentDataPathKey";
 
         const string k_SpaceKey = "UnityAnalyticsHeatmapAggregationSpace";
@@ -186,7 +186,7 @@ namespace UnityAnalyticsHeatmap
             //TODO
         }
 
-        public void Fetch(AggregationHandler handler, bool localOnly)
+		public void Fetch(AggregationHandler handler, bool localOnly, bool preProcessed = false)
         {
             m_AggregationHandler = handler;
 
@@ -503,5 +503,10 @@ namespace UnityAnalyticsHeatmap
         {
             m_AggregationHandler(jsonPath);
         }
+
+		public string GetDataPath()
+		{
+			return m_DataPath;
+		}
     }
 }
