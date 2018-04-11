@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using UnitySampleAssets.CrossPlatformInput;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace CompleteProject
 {
@@ -26,8 +28,20 @@ namespace CompleteProject
             // Set up references.
             anim = GetComponent <Animator> ();
             playerRigidbody = GetComponent <Rigidbody> ();
+			StartCoroutine(RecordPosition());
         }
 
+		IEnumerator RecordPosition()
+		{
+			//notify rvealr
+			yield return new WaitForSeconds (0.1f);
+			RVEALRManager.RvealrRecord record = new RVEALRManager.RvealrRecord();
+			record.record_id = "PlayerPosition";
+			record.record_data = new Dictionary<string, object> { { "PlayerPosition", new Vector3(transform.position.x, transform.position.y, transform.position.z) } };
+			RVEALRManager.Instance.SendRecord(record);
+			yield return new WaitForSeconds (0.1f);
+			StartCoroutine(RecordPosition());
+		}
 
         void FixedUpdate ()
         {
